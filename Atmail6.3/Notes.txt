@@ -5,4 +5,5 @@
 5.grab the shellcode 
 6.replace "\\" into '\'
 7.paste the shellcode into the javascript.
+8.Start listener and send email using python script
 9.you get a shell
