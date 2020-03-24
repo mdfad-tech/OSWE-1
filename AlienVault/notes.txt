@@ -1,0 +1,83 @@
+alienvault:/etc/ossim# ls
+agent  framework  ossim_setup.conf  ossim_setup.conf_last  server  updates
+alienvault:/etc/ossim# cat ossim_setup.conf
+admin_ip=172.16.164.30
+domain=alienvault
+email_notify=system@alienvault.com
+first_init=no
+hostname=alienvault
+interface=eth0
+language=en
+mailserver_relay=
+mailserver_relay_passwd=
+mailserver_relay_port=25
+mailserver_relay_user=
+ntp_server=
+profile=Server,Sensor,Framework,Database
+upgrade=no
+version=1.2
+
+[database]
+acl_db=ossim_acl
+db_ip=127.0.0.1
+db_port=3306
+event_db=snort
+ocs_db=ocsweb
+ossim_db=ossim
+osvdb_db=osvdb
+pass=GzhISskid0		# password state here 
+rebuild_database=no
+type=mysql
+user=root
+
+[expert]
+profile=server
+
+[firewall]
+active=yes
+
+[framework]
+framework_https=yes
+framework_https_cert=
+framework_https_key=
+framework_ip=172.16.164.30
+framework_port=40003
+
+[sensor]
+detectors=arpwatch, ossec, p0f, pads, pam_unix, snortunified, ssh, sudo
+ids_rules_flow_control=yes
+interfaces=eth0
+ip=
+monitors=nmap-monitor, ntop-monitor, ossim-monitor, ping-monitor, whois-monitor, wmi-monitor
+name=ossim
+netflow=yes
+netflow_remote_collector_port=555
+networks=192.168.0.0/16,172.16.0.0/12,10.0.0.0/8
+override_sensor=False
+pci_express=yes
+rsyslog_dnslookups_disable=yes
+tzone=US/Eastern
+
+[server]
+alienvault_ip_reputation=enabled
+server_ip=127.0.0.1
+server_license=no
+server_plugins=osiris, pam_unix, ssh, snare, sudo
+server_port=40001
+server_pro=no
+
+[snmp]
+community=public
+snmpd=no
+snmptrap=no
+
+[vpn]
+vpn_infraestructure=yes
+vpn_net=10.67.68
+vpn_port=33800
+
+
+
+
+
+
