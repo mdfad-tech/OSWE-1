@@ -7,6 +7,7 @@ mysql> select login,pass from users;
 1 row in set (0.00 sec)
 
 mysql> select mid((select pass from users where login='admin'),1,1);
++-------------------------------------------------------+
 | mid((select pass from users where login='admin'),1,1) |
 +-------------------------------------------------------+
 | f                                                     |
