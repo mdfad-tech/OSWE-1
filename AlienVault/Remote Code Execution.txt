@@ -1,3 +1,4 @@
+#ossim/sem/process.php
 #################################################################################
 root@kali:~# cat /tmp/bbb 
 uid=0(root) gid=0(root) groups=0(root)
